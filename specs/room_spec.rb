@@ -67,11 +67,8 @@ class RoomTest < MiniTest::Test
   end
 
   def test_get_list_of_songs_in_playlist
-    guest1 = Guest.new('bob','Tennage Dirtbag', 17, 100)
-    guest2 = Guest.new('jon', 'Hello', 82, 20)
-    room = Room.new(3, [Song.new('Tennage Dirtbag'),Song.new('Hello')], [guest1,guest2], 20)
-    result = room.get_list_of_songs_in_playlist
-    assert_equal(['Tennage Dirtbag','Hello'], result)
+    result = @room1.get_list_of_songs_in_playlist
+    assert_equal(['Tennage Dirtbag','Hello','Hi','Jingle Bells'], result)
   end
 
 

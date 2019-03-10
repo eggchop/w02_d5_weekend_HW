@@ -11,8 +11,13 @@ class Karaoke
     if room.capacity_full?
       return "Capacity full, please select another room"
     else
-      room.add_guest_to_guest_tracker(guest)
-      add_entry_fee_to_karaoke_cash
+      if guest.wallet >= @entry_fee
+        room.add_guest_to_guest_tracker(guest)
+        add_entry_fee_to_karaoke_cash
+        guest.change_guest_wallet(-@entry_fee)
+      else
+        return "You cannot afford entry."
+      end
     end
   end
 
@@ -21,7 +26,7 @@ class Karaoke
   end
 
 def add_entry_fee_to_karaoke_cash
-  @entry_cash += entry_fee
+  @entry_cash += @entry_fee
 end
 
 

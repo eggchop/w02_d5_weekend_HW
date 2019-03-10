@@ -31,10 +31,19 @@ class KaraokeTest < MiniTest::Test
     assert_equal(3,@karaoke1.rooms.count)
   end
 
-  def test_check_in_guest_to_room__capacity_not_met
+  def test_check_in_guest_to_room__capacity_not_met_guest_can_afford
     @karaoke1.add_guest_to_room(@guest2,@room2)
     assert_equal(1, @room2.guest_tracker.count)
     assert_equal(40, @karaoke1.entry_cash)
+    assert_equal(0, @guest2.wallet)
+  end
+
+  def test_check_in_guest_to_room__capacity_not_met_guest_cannot_afford
+    result = @karaoke1.add_guest_to_room(@guest4,@room2)
+    assert_equal(0, @room2.guest_tracker.count)
+    assert_equal(20, @karaoke1.entry_cash)
+    assert_equal(0, @guest4.wallet)
+    assert_equal("You cannot afford entry.", result)
   end
 
   def test_check_in_guest_to_room__capacity_met
@@ -53,4 +62,6 @@ class KaraokeTest < MiniTest::Test
     @karaoke1.add_entry_fee_to_karaoke_cash
     assert_equal(40, @karaoke1.entry_cash)
   end
+
+
 end
